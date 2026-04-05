@@ -25,3 +25,25 @@ menu.post('/post-create', async (c) => {
     );
   }
 });
+
+menu.post('/settings', async (c) => {
+  try {
+    return c.json<UiResponse>(
+      {
+        showCustomPost: {
+          height: 'tall',
+          isNSFW: false,
+        },
+      },
+      200
+    );
+  } catch (error) {
+    console.error(`Error opening settings: ${error}`);
+    return c.json<UiResponse>(
+      {
+        showToast: 'Failed to open settings',
+      },
+      400
+    );
+  }
+});

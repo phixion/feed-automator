@@ -10,6 +10,9 @@
       },
       "game": {
         "entry": "game.html"
+      },
+      "settings": {
+        "entry": "settings.html"
       }
     }
   },
@@ -25,10 +28,19 @@
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/post-create"
+      },
+      {
+        "label": "Manage Feeds",
+        "description": "Configure RSS feeds",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/settings"
       }
     ]
   },
-  "forms": {},
+  "forms": {
+    "settings": "/internal/form/settings-submit"
+  },
   "triggers": {
     "onAppInstall": "/internal/triggers/on-app-install"
   },
