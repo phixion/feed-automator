@@ -25,19 +25,10 @@
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/post-create"
-      },
-      {
-        "label": "Example form",
-        "description": "Show a simple form",
-        "location": "subreddit",
-        "forUserType": "moderator",
-        "endpoint": "/internal/menu/example-form"
       }
     ]
   },
-  "forms": {
-    "exampleForm": "/internal/form/example-submit"
-  },
+  "forms": {},
   "triggers": {
     "onAppInstall": "/internal/triggers/on-app-install"
   },
@@ -47,5 +38,19 @@
   },
   "dev": {
     "subreddit": "feed_automator_dev"
+  },
+  "permissions": {
+    "http": {
+      "enable": true,
+      "domains": [
+        "www.tagesschau.de",
+        "www.spiegel.de",
+        "digitalegesellschaft.de",
+        "digitalcourage.de",
+        "noyb.eu",
+        "www.ccc.de",
+        "netzpolitik.org"
+      ]
+    }
   }
 }
