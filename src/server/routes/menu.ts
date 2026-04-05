@@ -30,9 +30,8 @@ menu.post('/settings', async (c) => {
   try {
     return c.json<UiResponse>(
       {
-        showCustomPost: {
-          height: 'tall',
-          isNSFW: false,
+        showForm: {
+          name: 'settings',
         },
       },
       200

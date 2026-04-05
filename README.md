@@ -15,13 +15,13 @@ A powerful Reddit app that automates posting content from RSS feeds to your subr
 ### 1. Install Dependencies
 
 ```bash
-npm install
+npx install
 ```
 
 ### 2. Development
 
 ```bash
-npm run dev
+npx run dev
 ```
 
 This starts a dev server where you can test your app on Reddit in real-time.
@@ -29,7 +29,7 @@ This starts a dev server where you can test your app on Reddit in real-time.
 ### 3. Build
 
 ```bash
-npm run build
+npx run build
 ```
 
 Compiles both client and server code.
@@ -37,8 +37,8 @@ Compiles both client and server code.
 ### 4. Deploy
 
 ```bash
-npm run type-check  # Check types and lint
-npm run build       # Build the app
+npx run type-check  # Check types and lint
+npx run build       # Build the app
 npx devvit upload   # Upload to your dev subreddit
 ```
 
@@ -59,7 +59,6 @@ npx devvit upload   # Upload to your dev subreddit
 - **ccc.de**: `https://www.ccc.de/de/rss/updates.xml`
 - **netzplotik.org**: `https://netzpolitik.org/feed/`
 - **noyb.eu**: `https://noyb.eu/de/rss`
-  |
 
 ## API Endpoints
 
@@ -81,7 +80,6 @@ npx devvit upload   # Upload to your dev subreddit
 
 ## Development Notes
 
-- Feeds are stored per-subreddit in Redis
 - Form validation ensures no duplicate feed URLs
 - All API endpoints require moderator permissions
 - Images and media are hosted on Reddit's servers
