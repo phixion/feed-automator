@@ -15,13 +15,13 @@ A powerful Reddit app that automates posting content from RSS feeds to your subr
 ### 1. Install Dependencies
 
 ```bash
-npx install
+npm install
 ```
 
 ### 2. Development
 
 ```bash
-npx run dev
+npm run dev
 ```
 
 This starts a dev server where you can test your app on Reddit in real-time.
@@ -29,7 +29,7 @@ This starts a dev server where you can test your app on Reddit in real-time.
 ### 3. Build
 
 ```bash
-npx run build
+npm run build
 ```
 
 Compiles both client and server code.
@@ -37,8 +37,8 @@ Compiles both client and server code.
 ### 4. Deploy
 
 ```bash
-npx run type-check  # Check types and lint
-npx run build       # Build the app
+npm run type-check  # Check types and lint
+npm run build       # Build the app
 npx devvit upload   # Upload to your dev subreddit
 ```
 
