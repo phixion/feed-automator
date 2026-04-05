@@ -4,5 +4,6 @@
   },
   "json.schemaDownload.enable": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "workbench.settings.openDefaultSettings": false
+  "workbench.settings.openDefaultSettings": false,
+  "git.enableCommitSigning": true
 }
