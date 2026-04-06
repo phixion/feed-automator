@@ -28,20 +28,11 @@ menu.post('/post-create', async (c) => {
 
 menu.post('/settings', async (c) => {
   try {
-    // Create a temporary post for feed management
-    const subreddit = await reddit.getSubredditById(context.subredditId);
-    const post = await subreddit.submitCustomPost({
-      title: 'Manage Feeds',
-      description: 'Click to manage your RSS feeds',
-      preview: {
-        entrypoint: 'game',
-      },
-    });
-
-    // Navigate to the new post in expanded view
     return c.json<UiResponse>(
       {
-        navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,
+        showForm: {
+          formId: 'settings',
+        },
       },
       200
     );
