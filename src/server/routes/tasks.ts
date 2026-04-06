@@ -1,40 +1,15 @@
-import { Devvit, SettingScope } from '@devvit/public-api';
+import { Hono } from 'hono';
 import { XMLParser } from 'fast-xml-parser';
+import { reddit, redis, settings } from '@devvit/web/server';
 
-Devvit.configure({
-  redditAPI: true,
-  http: true,
-  redis: true,
-});
+export const tasks = new Hono();
 
-// 1. Definition der Einstellungen (Interface für Moderatoren)
-Devvit.addSettings([
-  {
-    type: 'string',
-    name: 'rss_urls',
-    label: 'RSS Feed URLs (Comma seperated)',
-    defaultValue:
-      'https://www.tagesschau.de/xml/rss2, https://feeds.heise.de/heise/newsticker',
-    scope: SettingScope.Installation,
-  },
-  {
-    type: 'string',
-    name: 'target_subreddit',
-    label: 'Target Subreddit',
-    defaultValue: 'mein_test_sub',
-    scope: SettingScope.Installation,
-  },
-]);
+tasks.post('/rss-fetch', async (c) => {
+  try {
+    const rssUrlsRaw = ((await settings.get('rss_urls')) as string) || '';
+    const targetSubreddit =
+      ((await settings.get('target_subreddit')) as string) || '';
 
-Devvit.addSchedulerJob({
-  name: 'rss_fetch_job',
-  onRun: async (_, context) => {
-    // 2. Einstellungen abrufen
-    const settings = await context.settings.getAll();
-    const rssUrlsRaw = (settings['rss_urls'] as string) || '';
-    const targetSubreddit = (settings['target_subreddit'] as string) || '';
-
-    // URLs säubern und in ein Array umwandeln
     const feedUrls = rssUrlsRaw
       .split(',')
       .map((url) => url.trim())
@@ -42,7 +17,7 @@ Devvit.addSchedulerJob({
 
     if (feedUrls.length === 0) {
       console.log('No RSS-Urls configured');
-      return;
+      return c.json({ status: 'success', message: 'No URLs' }, 200);
     }
 
     const parser = new XMLParser({
@@ -59,21 +34,13 @@ Devvit.addSchedulerJob({
         const xml = await response.text();
         const parsed = parser.parse(xml);
 
-        // Handle both RSS and Atom feeds
-        let items: Array<{
-          title?: string;
-          link?: string;
-          url?: string;
-          id?: string;
-        }> = [];
-
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let items: any[] = [];
         if (parsed.rss?.channel?.item) {
-          // RSS format
           items = Array.isArray(parsed.rss.channel.item)
             ? parsed.rss.channel.item
             : [parsed.rss.channel.item];
         } else if (parsed.feed?.entry) {
-          // Atom format
           items = Array.isArray(parsed.feed.entry)
             ? parsed.feed.entry
             : [parsed.feed.entry];
@@ -85,20 +52,18 @@ Devvit.addSchedulerJob({
 
           if (link && title) {
             const redisKey = `posted:${link}`;
-            const alreadyPosted = await context.redis.get(redisKey);
+            const alreadyPosted = await redis.get(redisKey);
 
             if (!alreadyPosted) {
               try {
-                await context.reddit.submitPost({
+                await reddit.submitPost({
                   title: String(title),
                   subredditName: targetSubreddit,
                   url: String(link),
                 });
-
-                await context.redis.set(redisKey, 'true', {
+                await redis.set(redisKey, 'true', {
                   expiration: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                 });
-
                 console.log(`successfully posted: ${title}`);
               } catch (postError) {
                 console.error(`failed to post "${title}":`, postError);
@@ -110,22 +75,10 @@ Devvit.addSchedulerJob({
         console.error(`error with URL ${url}:`, error);
       }
     }
-  },
-});
 
-Devvit.addTrigger({
-  event: 'AppInstall',
-  onEvent: async (_, context) => {
-    try {
-      await context.scheduler.runJob({
-        name: 'rss_fetch_job',
-        cron: '*/10 * * * *',
-      });
-      console.log('Feed automator app installed and job scheduled');
-    } catch (e) {
-      console.error('Failed to schedule job', e);
-    }
-  },
+    return c.json({ status: 'success' }, 200);
+  } catch (error) {
+    console.error('Error in rss-fetch task:', error);
+    return c.json({ status: 'error', error: String(error) }, 500);
+  }
 });
-
-export default Devvit;

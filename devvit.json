@@ -28,7 +28,26 @@
       }
     ]
   },
-  "forms": {},
+  "settings": {
+    "subreddit": {
+      "rss_urls": {
+        "type": "string",
+        "label": "RSS Feed URLs (Comma seperated)",
+        "default": "https://www.tagesschau.de/xml/rss2, https://feeds.heise.de/heise/newsticker"
+      },
+      "target_subreddit": {
+        "type": "string",
+        "label": "Target Subreddit",
+        "default": "mein_test_sub"
+      }
+    }
+  },
+  "tasks": {
+    "rss_fetch_job": {
+      "endpoint": "/internal/tasks/rss-fetch",
+      "cron": "*/10 * * * *"
+    }
+  },
   "triggers": {
     "onAppInstall": "/internal/triggers/on-app-install"
   },
