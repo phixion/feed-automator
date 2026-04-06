@@ -98,6 +98,59 @@ api.post('/decrement', async (c) => {
   });
 });
 
+api.get('/feeds', async (c) => {
+  try {
+    const subredditName = context.subredditName;
+    const existingFeeds = await redis.get(`feeds:${subredditName}`);
+    const feeds: FeedItem[] = existingFeeds ? JSON.parse(existingFeeds) : [];
+
+    return c.json(feeds, 200);
+  } catch (error) {
+    console.error('Error retrieving feeds:', error);
+    return c.json<ErrorResponse>(
+      {
+        status: 'error',
+        message: 'Failed to retrieve feeds',
+      },
+      500
+    );
+  }
+});
+
+api.delete('/feeds/:index', async (c) => {
+  try {
+    const index = parseInt(c.req.param('index'));
+    const subredditName = context.subredditName;
+
+    const existingFeeds = await redis.get(`feeds:${subredditName}`);
+    const feeds: FeedItem[] = existingFeeds ? JSON.parse(existingFeeds) : [];
+
+    if (index < 0 || index >= feeds.length) {
+      return c.json<ErrorResponse>(
+        {
+          status: 'error',
+          message: 'Invalid feed index',
+        },
+        400
+      );
+    }
+
+    feeds.splice(index, 1);
+    await redis.set(`feeds:${subredditName}`, JSON.stringify(feeds));
+
+    return c.json({ success: true }, 200);
+  } catch (error) {
+    console.error('Error deleting feed:', error);
+    return c.json<ErrorResponse>(
+      {
+        status: 'error',
+        message: 'Failed to delete feed',
+      },
+      500
+    );
+  }
+});
+
 // Feed management endpoints
 api.get('/feeds', async (c) => {
   try {

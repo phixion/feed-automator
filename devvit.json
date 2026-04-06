@@ -23,13 +23,6 @@
   "menu": {
     "items": [
       {
-        "label": "Create a new post",
-        "description": "feed-automator",
-        "location": "subreddit",
-        "forUserType": "moderator",
-        "endpoint": "/internal/menu/post-create"
-      },
-      {
         "label": "Manage Feeds",
         "description": "Configure RSS feeds",
         "location": "subreddit",

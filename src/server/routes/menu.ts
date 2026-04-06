@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import type { UiResponse } from '@devvit/web/shared';
-import { context } from '@devvit/web/server';
+import { context, reddit } from '@devvit/web/server';
 import { createPost } from '../core/post';
 
 export const menu = new Hono();
@@ -28,11 +28,20 @@ menu.post('/post-create', async (c) => {
 
 menu.post('/settings', async (c) => {
   try {
+    // Create a temporary post for feed management
+    const subreddit = await reddit.getSubredditById(context.subredditId);
+    const post = await subreddit.submitCustomPost({
+      title: 'Manage Feeds',
+      description: 'Click to manage your RSS feeds',
+      preview: {
+        entrypoint: 'game',
+      },
+    });
+
+    // Navigate to the new post in expanded view
     return c.json<UiResponse>(
       {
-        showForm: {
-          name: 'settings',
-        },
+        navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,
       },
       200
     );
