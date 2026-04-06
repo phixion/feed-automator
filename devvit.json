@@ -1,36 +1,37 @@
 {
   "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
   "name": "feed-automator",
-  "post": {
-    "dir": "dist/client",
-    "entrypoints": {
-      "default": {
-        "inline": true,
-        "entry": "splash.html"
-      },
-      "game": {
-        "entry": "game.html"
-      }
-    }
-  },
   "server": {
     "dir": "dist/server",
     "entry": "index.cjs"
   },
-  "menu": {
-    "items": [
-      {
-        "label": "Create a new post",
-        "description": "feed-automator",
-        "location": "subreddit",
-        "forUserType": "moderator",
-        "endpoint": "/internal/menu/post-create"
+  "settings": {
+    "subreddit": {
+      "rss_urls": {
+        "type": "string",
+        "label": "RSS Feed URLs (comma-separated)",
+        "defaultValue": "https://www.spiegel.de/netzwelt/netzpolitik/index.rss, https://digitalegesellschaft.de/feed/, https://digitalcourage.de/rss.xml, https://noyb.eu/de/rss, https://www.ccc.de/de/rss/updates.xml, https://netzpolitik.org/feed/",
+        "helpText": "Enter one or more RSS/Atom feed URLs, separated by commas."
+      },
+      "target_subreddit": {
+        "type": "string",
+        "label": "Target Subreddit",
+        "defaultValue": "feed_automator_dev",
+        "helpText": "The subreddit name (without r/) where feed posts will be submitted."
       }
-    ]
+    }
   },
   "forms": {},
   "triggers": {
     "onAppInstall": "/internal/triggers/on-app-install"
+  },
+  "scheduler": {
+    "tasks": {
+      "rss-fetch": {
+        "endpoint": "/internal/tasks/rss-fetch",
+        "cron": "*/10 * * * *"
+      }
+    }
   },
   "scripts": {
     "dev": "vite build --watch",
