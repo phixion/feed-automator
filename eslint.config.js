@@ -9,11 +9,7 @@ export default defineConfig([
   tseslint.configs.recommended,
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-<<<<<<< HEAD
     files: ['src/server/**/*.{ts,tsx,mjs,cjs,js}'],
-=======
-    files: ['src/server/**/*.{ts,tsx,mjs,cjs,js}', 'src/main.ts'],
->>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
     languageOptions: {
       ecmaVersion: 2023,
       globals: globals.node,
