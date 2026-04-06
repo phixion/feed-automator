@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import type { UiResponse } from '@devvit/web/shared';
-import { context } from '@devvit/web/server';
+import { context, redis } from '@devvit/web/server';
 
 type ExampleFormValues = {
   message?: string;

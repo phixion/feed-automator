@@ -191,10 +191,17 @@ api.delete('/feeds/:index', async (c) => {
     const removedFeed = feeds.splice(index, 1)[0];
     await redis.set(`feeds:${subredditName}`, JSON.stringify(feeds));
 
-    return c.json(
-      { message: `Feed "${removedFeed.name}" removed successfully` },
-      200
-    );
+    if (removedFeed) {
+      return c.json(
+        { message: `Feed "${removedFeed.name}" removed successfully` },
+        200
+      );
+    } else {
+      return c.json(
+        { message: 'Feed removed successfully, but details are unknown.' },
+        200
+      );
+    }
   } catch (error) {
     console.error('Error deleting feed:', error);
     return c.json<ErrorResponse>(
