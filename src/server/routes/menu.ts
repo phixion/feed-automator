@@ -21,7 +21,11 @@ menu.post('/post-create', async (c) => {
       {
         showToast: 'Failed to create post',
       },
+<<<<<<< HEAD
       400
+=======
+      200
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
     );
   }
 });

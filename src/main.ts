@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Devvit, SettingScope, Context } from '@devvit/public-api';
+=======
+import { Devvit, SettingScope } from '@devvit/public-api';
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
 import { XMLParser } from 'fast-xml-parser';
 
 Devvit.configure({
@@ -28,7 +32,10 @@ Devvit.addSettings([
 
 Devvit.addSchedulerJob({
   name: 'rss_fetch_job',
+<<<<<<< HEAD
   cron: '*/10 * * * *', // Run every 10 minutes
+=======
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
   onRun: async (_, context) => {
     // 2. Einstellungen abrufen
     const settings = await context.settings.getAll();
@@ -117,6 +124,7 @@ Devvit.addSchedulerJob({
 Devvit.addTrigger({
   event: 'AppInstall',
   onEvent: async (_, context) => {
+<<<<<<< HEAD
     // Job is scheduled automatically via cron in addSchedulerJob
     console.log('Feed automator app installed');
   },
@@ -157,5 +165,18 @@ const settingsForm = Devvit.createForm(
   },
   { title: 'Feed Automator Settings' }
 );
+=======
+    try {
+      await context.scheduler.runJob({
+        name: 'rss_fetch_job',
+        cron: '*/10 * * * *',
+      });
+      console.log('Feed automator app installed and job scheduled');
+    } catch (e) {
+      console.error('Failed to schedule job', e);
+    }
+  },
+});
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
 
 export default Devvit;

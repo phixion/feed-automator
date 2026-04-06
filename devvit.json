@@ -20,7 +20,11 @@
   "menu": {
     "items": [
       {
+<<<<<<< HEAD
         "label": "Create a new post",
+=======
+        "label": "Manage RSS",
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
         "description": "feed-automator",
         "location": "subreddit",
         "forUserType": "moderator",
@@ -28,7 +32,32 @@
       }
     ]
   },
+<<<<<<< HEAD
   "forms": {},
+=======
+  "settings": {
+    "subreddit": {
+      "rss_urls": {
+        "type": "string",
+        "label": "RSS Feed URLs (Comma seperated)",
+        "defaultValue": "https://www.tagesschau.de/xml/rss2, https://feeds.heise.de/heise/newsticker"
+      },
+      "target_subreddit": {
+        "type": "string",
+        "label": "Target Subreddit",
+        "defaultValue": "mein_test_sub"
+      }
+    }
+  },
+  "scheduler": {
+    "tasks": {
+      "rss_fetch_job": {
+        "endpoint": "/internal/tasks/rss-fetch",
+        "cron": "*/10 * * * *"
+      }
+    }
+  },
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
   "triggers": {
     "onAppInstall": "/internal/triggers/on-app-install"
   },
@@ -53,4 +82,8 @@
       ]
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c

@@ -6,9 +6,15 @@
     "customConditions": [],
     "types": ["node"],
     "exactOptionalPropertyTypes": false,
+<<<<<<< HEAD
     "rootDir": "../src/server"
   },
   "include": ["../src/server/**/*"],
+=======
+    "rootDir": "../src"
+  },
+  "include": ["../src/server/**/*", "../src/main.ts"],
+>>>>>>> 67678da7dda8f3ef01a0dd7906262bba9f8c3d8c
   "exclude": [],
   "references": [
     {
