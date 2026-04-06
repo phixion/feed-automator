@@ -21,7 +21,7 @@ menu.post('/post-create', async (c) => {
       {
         showToast: 'Failed to create post',
       },
-      400
+      200
     );
   }
 });
