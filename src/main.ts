@@ -133,29 +133,32 @@ Devvit.addMenuItem({
 });
 
 const settingsForm = Devvit.createForm(
-  (builder, context) => {
-    return builder
-      .fields([
-        builder.stringField({
-          key: 'rss_urls',
-          label: 'RSS Feed URLs (Comma seperated)',
-          lines: 3,
-          defaultValue:
-            'https://www.tagesschau.de/xml/rss2, https://feeds.heise.de/heise/newsticker',
-        }),
-        builder.stringField({
-          key: 'target_subreddit',
-          label: 'Target Subreddit',
-          defaultValue: 'mein_test_sub',
-        }),
-      ])
-      .onSubmit(async (values) => {
-        await context.settings.set('rss_urls', values.rss_urls);
-        await context.settings.set('target_subreddit', values.target_subreddit);
-        context.ui.showToast('Settings saved successfully!');
-      });
+  {
+    title: 'Feed Automator Settings',
+    fields: [
+      {
+        type: 'paragraph',
+        name: 'rss_urls',
+        label: 'RSS Feed URLs (Comma seperated)',
+        defaultValue:
+          'https://www.tagesschau.de/xml/rss2, https://feeds.heise.de/heise/newsticker',
+      },
+      {
+        type: 'string',
+        name: 'target_subreddit',
+        label: 'Target Subreddit',
+        defaultValue: 'mein_test_sub',
+      },
+    ],
   },
-  { title: 'Feed Automator Settings' }
+  async (event, context) => {
+    await context.settings.set('rss_urls', String(event.values.rss_urls || ''));
+    await context.settings.set(
+      'target_subreddit',
+      String(event.values.target_subreddit || '')
+    );
+    context.ui.showToast('Settings saved successfully!');
+  }
 );
 
 export default Devvit;
