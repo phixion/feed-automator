@@ -23,7 +23,7 @@
     "@devvit/web": "0.12.17",
     "@hono/node-server": "^1.19.9",
     "clsx": "2.1.1",
-    "devvit": "0.12.17",
+    "devvit": "1.0.0",
     "fast-xml-parser": "^5.5.10",
     "hono": "4.11.7",
     "react": "19.2.4",
